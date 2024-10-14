@@ -40,7 +40,7 @@ A Python application that calculates the volume of a torus with a square cross-s
     - Update the torus dimensions (`D_outer`, `D_inner`, `h`) with your desired values (in millimeters).
     - Edit the `constituents` list to specify the materials, their weight percentages (as decimals), and densities (in g/cm³).
         - Ensure that the sum of the weight percentages equals `1.0` (or 100%).
-
+   - Set the `margin_factor` to `1.1` to use 10% extra powder (e.g.), accounting for manufacturing losses. 
 
 2. **Run the Program:**
     - Execute the script using Python 3:

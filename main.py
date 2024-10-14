@@ -16,6 +16,9 @@ constituents = [
     {'name': 'Iron',     'percentage': 0.05, 'density': 7.874},
 ]
 
+# Margin factor (use more powder to account for manufacturing losses)
+margin_factor = 1.1
+
 # Ensure percentages sum to 1 (or 100%)
 assert sum([c['percentage'] for c in constituents]) == 1.0, "Percentages do not sum to 100%."
 
@@ -29,16 +32,18 @@ h_cm = h / 10.0
 w_cm = (D_outer_cm - D_inner_cm) / 2.0        # Width of the square cross-section
 A = w_cm * h_cm                               # Area of the square cross-section
 R_c = (D_outer_cm + D_inner_cm) / 4.0         # Distance from the axis of rotation to the centroid of the cross-section
-V = 2 * math.pi * R_c * A                     # Volume of the torus in cm³ (using Pappus's Theorem)
+V = 2 * math.pi * R_c * A                     # True volume of the torus in cm³ (using Pappus's Theorem)
 
-# Calculate the total mass of the powder mixture
-# Using the rule of mixtures for densities and mass percentages
+# Apply the margin factor to scale the volume
+V_with_margin = V * margin_factor
+
+# Calculate the total mass of the powder mixture using the margin-adjusted volume
 denominator = sum([c['percentage'] / c['density'] for c in constituents])
-m_total = V / denominator                     # Total mass of the powder mixture in grams
+m_total_with_margin = V_with_margin / denominator  # Total mass of the powder mixture in grams
 
-# Calculate the mass of each constituent in the mixture
+# Calculate the mass of each constituent in the mixture, using margin-adjusted volume
 for c in constituents:
-    c['mass'] = c['percentage'] * m_total     # Mass of each constituent in grams
+    c['mass'] = c['percentage'] * m_total_with_margin  # Mass of each constituent in grams
 
 # Prepare the output
 output_lines = []
@@ -55,6 +60,9 @@ output_lines.append(f"    Outer Diameter (D_outer): {D_outer} mm")
 output_lines.append(f"    Inner Diameter (D_inner): {D_inner} mm")
 output_lines.append(f"    Height of Cross-Section (h): {h} mm\n")
 
+# Margin Factor
+output_lines.append(f"  Margin Factor: {margin_factor:.2f} (for manufacturing losses)\n")
+
 # Constituents
 output_lines.append("  Powder Constituents:")
 for c in constituents:
@@ -65,9 +73,10 @@ output_lines.append("")
 
 # Results
 output_lines.append(">>> Calculation Results:")
-output_lines.append(f"  Volume of Torus: {V:.2f} cm³")
-output_lines.append(f"  Total Mass of Powder Mixture: {m_total:.2f} grams\n")
-output_lines.append("  Mass of Each Constituent:")
+output_lines.append(f"  True Volume of Torus: {V:.2f} cm³")
+output_lines.append(f"  Adjusted Volume with Margin: {V_with_margin:.2f} cm³\n")
+output_lines.append(f"  Total Mass of Powder Mixture (with margin): {m_total_with_margin:.2f} grams\n")
+output_lines.append("  Mass of Each Constituent (with margin):")
 for c in constituents:
     output_lines.append(f"    {c['name']} ({c['percentage']*100:.0f}%): {c['mass']:.2f} grams")
 output_lines.append("")
