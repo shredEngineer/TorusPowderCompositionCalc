@@ -1,0 +1,29 @@
+==========================================
+        TorusPowderCompositionCalc        
+==========================================
+
+>>> Input Parameters:
+  Torus Dimensions:
+    Outer Diameter (D_outer): 38.0 mm
+    Inner Diameter (D_inner): 21.0 mm
+    Height of Cross-Section (h): 11.0 mm
+
+  Powder Constituents:
+    Aluminum:
+      Percentage by Weight: 95.00%
+      Density: 2.7 g/cm³
+    Iron:
+      Percentage by Weight: 5.00%
+      Density: 7.874 g/cm³
+
+>>> Calculation Results:
+  Volume of Torus: 8.67 cm³
+  Total Mass of Powder Mixture: 24.19 grams
+
+  Mass of Each Constituent:
+    Aluminum (95%): 22.98 grams
+    Iron (5%): 1.21 grams
+
+==========================================
+    End of  TorusPowderCompositionCalc    
+==========================================
